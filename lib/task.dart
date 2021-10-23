@@ -1,3 +1,4 @@
+import 'package:appbuild/styles/textfeild.dart';
 import 'package:flutter/material.dart';
 
 class Task extends StatefulWidget {
@@ -17,6 +18,23 @@ class _TaskState extends State<Task> {
         elevation: 0,
       ),
       drawer: Drawer(),
+      body: Container(
+        child: Padding(padding: EdgeInsets.fromLTRB(20, 15, 15, 20), 
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            TextField(
+              decoration: Custom(lable: "name").textFeildDecoration,
+            ),
+            TextField(
+              decoration: Custom(lable: "Address").textFeildDecoration,
+            ),
+            TextField(
+              decoration: Custom(lable: "mobile no.").textFeildDecoration,
+            )
+          ],
+        ),),
+      ),
     );
   }
 }

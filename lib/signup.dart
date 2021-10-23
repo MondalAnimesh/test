@@ -1,4 +1,7 @@
+import 'dart:ffi';
 import 'dart:ui';
+import 'package:appbuild/module/alertdialoge.dart';
+import 'package:appbuild/styles/textfeild.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +19,7 @@ class Signup extends StatefulWidget {
 class _LoginState extends State<Signup> {
   String emailId = "";
   String passWord = "";
+  String confirmPassword = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,11 +64,7 @@ class _LoginState extends State<Signup> {
                 onChanged: (String value) {
                   emailId = value;
                 },
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    labelText: "Email"),
+                decoration: Custom(lable: "email").textFeildDecoration,
               ),
             ),
           ),
@@ -72,28 +72,24 @@ class _LoginState extends State<Signup> {
             padding: const EdgeInsets.fromLTRB(13, 8, 13, 05),
             child: SizedBox(
               child: TextField(
+                obscureText: true,
                 onChanged: (String value) {
                   passWord = value;
                 },
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  labelText: "Password",
-                ),
+                decoration: Custom(lable: "Password").textFeildDecoration,
               ),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.fromLTRB(13, 8, 13, 05),
             child: SizedBox(
               child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  labelText: "Confirm Password",
-                ),
+                obscureText: true,
+                onChanged: (String value) {
+                  confirmPassword = value;
+                },
+                decoration:
+                    Custom(lable: "Confirm Password").textFeildDecoration,
               ),
             ),
           ),
@@ -103,18 +99,39 @@ class _LoginState extends State<Signup> {
               onPressed: () async {
                 //  Navigator.pushNamed(context, "Task");
                 await Firebase.initializeApp();
-                try {
-                  UserCredential userCredential = await FirebaseAuth.instance
-                      .createUserWithEmailAndPassword(
-                          email: emailId, password: passWord);
-                } on FirebaseAuthException catch (e) {
-                  if (e.code == 'weak-password') {
-                    print('The password provided is too weak.');
-                  } else if (e.code == 'email-already-in-use') {
-                    print('The account already exists for that email.');
+                if (confirmPassword == passWord) {
+                  try {
+                    await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                            email: emailId, password: passWord)
+                        .then((value) {
+                      showDialog(
+                          context: context,
+                          builder: Alert(
+                              'The user is successfully created ', context));
+                    });
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'weak-password') {
+                      showDialog(
+                          context: context,
+                          builder: Alert(
+                              'The password provided is too weak.', context));
+                      print('The password provided is too weak.');
+                    } else if (e.code == 'email-already-in-use') {
+                      showDialog(
+                          context: context,
+                          builder: Alert(
+                              'The account already exists for that email.',
+                              context));
+                      print('The account already exists for that email.');
+                    }
+                  } catch (e) {
+                    print(e);
                   }
-                } catch (e) {
-                  print(e);
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: Alert('password does not match', context));
                 }
               },
               child: const Text("Sign Up"),

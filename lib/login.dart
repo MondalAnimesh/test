@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:appbuild/module/alertdialoge.dart';
+import 'package:appbuild/styles/textfeild.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +14,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  String login_email = "";
+  String login_password = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,27 +60,27 @@ class _LoginState extends State<Login> {
               style: TextStyle(fontSize: 16),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.fromLTRB(13, 15, 13, 5),
             child: SizedBox(
               child: TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      labelText: "Email")),
+                onChanged: (String value) {
+                  login_email = value;
+                },
+                decoration: Custom(lable: "email").textFeildDecoration,
+              ),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.fromLTRB(13, 8, 13, 40),
             child: SizedBox(
               child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  labelText: "Password",
-                ),
+                
+                obscureText: true,
+                onChanged: (String value) {
+                  login_password = value;
+                },
+                decoration: Custom(lable: "password").textFeildDecoration,
               ),
             ),
           ),
@@ -97,8 +102,24 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.fromLTRB(13, 8, 13, 0),
             child: CupertinoButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "Task");
+              onPressed: () async {
+                try {
+                  await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: login_email, password: login_password)
+                      .then((value) => Navigator.pushNamed(context, "Task"));
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'user-not-found') {
+                    showDialog(
+                        context: context,
+                        builder: Alert('User not found', context));
+                  } else if (e.code == 'wrong-password') {
+                    showDialog(
+                        context: context,
+                        builder:
+                            Alert('You have entered wrong password', context));
+                  }
+                }
               },
               child: const Text("Sign in"),
               color: Colors.amber,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:appbuild/flash.dart';
 import 'package:appbuild/login.dart';
 import 'package:appbuild/signup.dart';
@@ -16,13 +18,14 @@ class Start extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: "Flash",
-      routes: {
-        "Flash": (context) => const Flash(),
-        "Login": (context) => const Login(),
-        "Task": (context) => const Task(),
-        "SignUp": (context) => const Signup()
-      },
+      home: Task(),
+      // initialRoute: "Flash",
+      // routes: {
+      //   "Flash": (context) => const Flash(),
+      //   "Login": (context) => const Login(),
+      //   "Task": (context) => const Task(),
+      //   "SignUp": (context) => const Signup()
+      // },
     );
   }
 }
