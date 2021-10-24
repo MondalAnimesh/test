@@ -15,4 +15,6 @@ class Custom {
       const TextStyle(fontSize: 26, fontWeight: FontWeight.bold);
   static TextStyle heaDing2 =
       const TextStyle(fontSize: 35, fontWeight: FontWeight.bold);
+  static TextStyle heaDing3 =
+      const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 }

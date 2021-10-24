@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:ui';
 import 'package:appbuild/module/alertdialoge.dart';
 import 'package:appbuild/styles/textfeild.dart';
@@ -34,7 +33,7 @@ class _LoginState extends State<Signup> {
               Positioned(
                 top: MediaQuery.of(context).size.width * 0.05,
                 left: MediaQuery.of(context).size.width * 0.04,
-                child: Icon(Icons.arrow_back),
+                child: const Icon(Icons.arrow_back),
               ),
               Image(
                 image: const AssetImage("Images/main.png"),
@@ -81,7 +80,7 @@ class _LoginState extends State<Signup> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(13, 8, 13, 05),
+            padding: const EdgeInsets.fromLTRB(13, 8, 13, 05),
             child: SizedBox(
               child: TextField(
                 obscureText: true,
@@ -116,17 +115,17 @@ class _LoginState extends State<Signup> {
                           context: context,
                           builder: Alert(
                               'The password provided is too weak.', context));
-                      print('The password provided is too weak.');
                     } else if (e.code == 'email-already-in-use') {
                       showDialog(
                           context: context,
                           builder: Alert(
                               'The account already exists for that email.',
                               context));
-                      print('The account already exists for that email.');
                     }
                   } catch (e) {
-                    print(e);
+                    showDialog(
+                        context: context,
+                        builder: Alert(e.toString(), context));
                   }
                 } else {
                   showDialog(

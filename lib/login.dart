@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:ui';
 
 import 'package:appbuild/module/alertdialoge.dart';
@@ -30,10 +32,10 @@ class _LoginState extends State<Login> {
               Positioned(
                 top: MediaQuery.of(context).size.width * 0.05,
                 left: MediaQuery.of(context).size.width * 0.04,
-                child: Icon(Icons.arrow_back),
+                child: const Icon(Icons.arrow_back),
               ),
               Image(
-                image: AssetImage("Images/main.png"),
+                image: const AssetImage("Images/main.png"),
                 height: MediaQuery.of(context).size.height * 0.38,
                 width: MediaQuery.of(context).size.width,
               ),
@@ -61,7 +63,7 @@ class _LoginState extends State<Login> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(13, 15, 13, 5),
+            padding: const EdgeInsets.fromLTRB(13, 15, 13, 5),
             child: SizedBox(
               child: TextField(
                 onChanged: (String value) {
@@ -72,10 +74,9 @@ class _LoginState extends State<Login> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(13, 8, 13, 40),
+            padding: const EdgeInsets.fromLTRB(13, 8, 13, 40),
             child: SizedBox(
               child: TextField(
-                
                 obscureText: true,
                 onChanged: (String value) {
                   login_password = value;

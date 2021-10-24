@@ -16,11 +16,12 @@ class _FlashState extends State<Flash> {
   }
 
   _startlogin() async {
-    await Future.delayed(Duration(seconds: 2), () {});
+    await Future.delayed(const Duration(seconds: 2), () {});
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Login()));
+        context, MaterialPageRoute(builder: (context) => const Login()));
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
@@ -39,7 +40,7 @@ class _FlashState extends State<Flash> {
                   color: Colors.black.withOpacity(0.5),
                   spreadRadius: 30,
                   blurRadius: 18,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
